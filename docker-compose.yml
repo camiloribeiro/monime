@@ -1,0 +1,32 @@
+target:
+  build: .
+  links:
+    - logstash 
+  volumes: 
+    - "./collectd.conf:/etc/collectd/collectd.conf"
+    - "./startcollectd.sh:/tmp/startcollectd.sh"
+  command: /tmp/startcollectd.sh 
+
+logstash:
+  image: logstash
+  links:
+    - elasticsearch
+  volumes: 
+    - "./logstash.conf:/tmp/logstash.conf"
+  command: logstash -f /tmp/logstash.conf
+  expose:
+   - "25826"
+
+elasticsearch:
+  image: elasticsearch
+  expose:
+    - "9200"
+  ports:
+    - "9200:9200"
+
+kibana:
+  image: kibana
+  links:
+    - elasticsearch
+  ports:
+    - "5601:5601"
