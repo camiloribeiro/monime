@@ -8,7 +8,7 @@ target:
   command: /tmp/startcollectd.sh 
 
 logstash:
-  image: logstash
+  image: logstash:2.3.4-1
   links:
     - elasticsearch
   volumes: 
@@ -18,14 +18,14 @@ logstash:
    - "25826"
 
 elasticsearch:
-  image: elasticsearch
+  image: elasticsearch:2.3.4
   expose:
     - "9200"
   ports:
     - "9200:9200"
 
 kibana:
-  image: kibana
+  image: kibana:4.5.3
   links:
     - elasticsearch
   ports:
